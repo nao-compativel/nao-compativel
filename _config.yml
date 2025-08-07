@@ -223,3 +223,12 @@ jekyll-archives:
   permalinks:
     tag: /tags/:name/
     category: /categories/:name/
+# _config.yml
+
+# Configurações do Jekyll Compose (ESTRUTURA CORRETA)
+jekyll_compose:
+  default_front_matter:
+    posts:
+      layout: post
+      categories: [TOP_CATEGORY, SUB_CATEGORY]
+      tags: [TAG] # TAG names should always be lowercase
