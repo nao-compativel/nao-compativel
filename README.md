@@ -1,6 +1,6 @@
 <div align="center">
-  <h3>Cyber Security Enthusiast</h3>
-  <a href="https://nao-compativel.github.io/nao-compativel/">My Personal Blog</a>
+  <h3>Cyber Security Enthusiastc
+  <a href="https://nao-compativel.github.io/nao-compativel/"><h2>My Personal Blog</h2></a>
 </div>
 
 <p align="center">
