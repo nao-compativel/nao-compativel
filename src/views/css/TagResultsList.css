@@ -1,0 +1,48 @@
+/* Reutiliza todo o CSS da lista de posts */
+@import "./PostsList.css";
+
+/* Adiciona apenas os estilos novos */
+.tagHeader {
+  margin-bottom: 2rem; /* mb-8 */
+}
+.tagHeaderButton {
+  margin-bottom: 1.5rem; /* mb-6 */
+  display: flex;
+  align-items: center;
+  color: #64748b; /* text-slate-400 */
+  font-size: 0.875rem; /* text-sm */
+  font-family: "Inconsolata", monospace;
+  transition: all 0.2s;
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+.tagHeaderButton:hover {
+  color: #a855f7; /* hover:text-purple-400 */
+}
+.tagHeaderButton svg {
+  margin-right: 0.25rem; /* mr-1 */
+  transition: transform 0.2s;
+}
+.tagHeaderButton:hover svg {
+  transform: translateX(-0.25rem); /* group-hover:-translate-x-1 */
+}
+
+.tagHeader h2 {
+  font-size: 1.875rem; /* text-3xl */
+  font-weight: 700; /* font-bold */
+  color: #ffffff; /* text-white */
+  margin-bottom: 0.5rem; /* mb-2 */
+  margin-top: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem; /* gap-2 */
+}
+.tagHeader h2 span {
+  color: #a855f7; /* text-purple-400 */
+}
+.tagHeader p {
+  color: #64748b; /* text-slate-400 */
+  margin-bottom: 1.5rem; /* mb-6 */
+  margin-top: 0; /* -mt-2 */
+}

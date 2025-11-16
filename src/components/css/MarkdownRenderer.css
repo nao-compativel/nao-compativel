@@ -1,0 +1,100 @@
+/* ---------- HEADERS ---------- */
+
+.markdownH1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #a855f7;
+  margin: 2rem 0 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #2a3444;
+}
+
+.markdownH2 {
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: #fff;
+  margin: 1.75rem 0 0.75rem;
+  display: flex;
+  align-items: center;
+}
+.markdownH2 svg {
+  color: #a855f7;
+  margin-right: 0.35rem;
+  width: 18px;
+  height: 18px;
+}
+
+/* ---------- TEXTO ---------- */
+
+.markdownP {
+  line-height: 1.75;
+  color: #a0aec0;
+  margin-bottom: 1rem;
+}
+
+.markdownUl {
+  list-style: disc inside;
+  color: #a0aec0;
+  margin: 1rem 0;
+  padding-left: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.markdownLi {
+  line-height: 1.6;
+}
+
+/* ---------- CODE BLOCK ---------- */
+
+.codeBlock {
+  background: #020617;
+  border-left: 4px solid #a855f7;
+  padding: 1rem;
+  font-family: "Inconsolata", monospace;
+  font-size: 0.9rem;
+  color: #e5d8ff;
+  overflow-x: auto;
+  margin: 1.5rem 0;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+}
+.codeBlock pre {
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+/* Inline code */
+.codeInline {
+  font-family: "Inconsolata", monospace;
+  font-size: 0.9rem;
+  color: #c084fc;
+  background: rgba(168, 85, 247, 0.12);
+  padding: 0.15rem 0.4rem;
+  border-radius: 0.25rem;
+  border: 1px solid #2a3444;
+}
+
+/* ---------- IMAGENS ---------- */
+
+.markdownImg {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  margin: 1.5rem 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  border: 1px solid #2a3444;
+}
+
+/* Alt fallback */
+.markdownImg::before {
+  content: "Erro ao carregar imagem: " attr(alt);
+  display: block;
+  padding: 2rem;
+  background: #0f172a;
+  color: #a0aec0;
+  border: 1px dashed #2a3444;
+  border-radius: 0.5rem;
+  font-family: "Inconsolata", monospace;
+}

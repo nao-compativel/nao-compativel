@@ -1,0 +1,103 @@
+.postReaderContainer {
+  max-width: 896px; /* max-w-3xl */
+  margin: 2rem auto; /* Adiciona margem no topo/baixo */
+  background-color: #0f172a; /* bg-slate-900 */
+  min-height: 100vh;
+  border-left: 1px solid #1e293b; /* border-x border-slate-800 */
+  border-right: 1px solid #1e293b;
+  padding: 2.5rem 2rem; /* px-8 py-10 */
+  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1),
+    0 8px 10px -6px rgb(0 0 0 / 0.1); /* shadow-2xl */
+  border-radius: 0.5rem; /* rounded-lg */
+  box-sizing: border-box;
+}
+
+.backButton {
+  margin-bottom: 1.5rem; /* mb-6 */
+  display: flex;
+  align-items: center;
+  color: #64748b; /* text-slate-400 */
+  font-size: 0.875rem; /* text-sm */
+  font-family: "Inconsolata", monospace;
+  transition: all 0.2s;
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+.backButton:hover {
+  color: #a855f7; /* hover:text-purple-400 */
+}
+.backButton svg {
+  margin-right: 0.25rem; /* mr-1 */
+  transition: transform 0.2s;
+}
+.backButton:hover svg {
+  transform: translateX(-0.25rem); /* group-hover:-translate-x-1 */
+}
+
+.postHeader {
+  margin-bottom: 2rem; /* mb-8 */
+}
+.postHeaderMeta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem; /* gap-3 */
+  margin-bottom: 1rem; /* mb-4 */
+}
+.postHeaderMeta span {
+  color: #64748b; /* text-slate-400 */
+  font-size: 0.875rem; /* text-sm */
+  font-family: "Inconsolata", monospace;
+}
+.postHeaderTitle {
+  font-size: 2.25rem; /* text-4xl */
+  font-weight: 700; /* font-bold */
+  color: #ffffff; /* text-white */
+  margin-bottom: 1rem; /* mb-4 */
+  line-height: 1.2;
+}
+.postHeaderAuthor {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem; /* gap-2 */
+  color: #64748b; /* text-slate-400 */
+  font-size: 0.875rem; /* text-sm */
+}
+
+.postTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem; /* gap-2 */
+  padding-bottom: 2rem; /* pb-8 */
+  border-bottom: 1px solid #1e293b; /* border-b border-slate-800 */
+}
+.postTagButton {
+  padding: 0.25rem 0.75rem; /* px-3 py-1 */
+  border-radius: 9999px; /* rounded-full */
+  font-size: 0.875rem; /* text-sm */
+  font-family: "Inconsolata", monospace;
+  border: 1px solid #1e293b; /* border-slate-800 */
+  color: #64748b; /* text-slate-400 */
+  background-color: transparent;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.postTagButton:hover {
+  color: #ffffff; /* hover:text-white */
+  background-color: #1e293b; /* hover:bg-slate-800 */
+}
+/* --- Estilo para o Badge Clicável --- */
+.categoryBadgeButton {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+.categoryBadgeButton .badge {
+  transition: all 0.2s;
+}
+.categoryBadgeButton:hover .badge {
+  border-color: #a855f7;
+  background-color: rgba(168, 85, 247, 0.2);
+  color: #a855f7;
+}

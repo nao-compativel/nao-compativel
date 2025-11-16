@@ -1,0 +1,246 @@
+/* --- Reset Básico e Fundo --- */
+body {
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.appContainer {
+  min-height: 100vh;
+  background-color: #020617; /* bg-slate-950 */
+  color: #e2e8f0; /* text-slate-300 */
+  font-family: "Inter", sans-serif;
+  user-select: none;
+}
+
+.appContainer ::selection {
+  background-color: #a855f7; /* bg-purple-500 */
+  color: #ffffff; /* text-white */
+}
+
+/* --- Layout Principal (CORRIGIDO) --- */
+.mainContent {
+  transition: all 0.3s ease-in-out;
+  padding-top: 80px; /* Padding APENAS para o header mobile */
+}
+
+@media (min-width: 768px) {
+  /* breakpoint 'md' */
+  .mainContent {
+    margin-left: 16rem; /* Empurra o <main> para a direita */
+    padding-top: 0; /* Remove o padding mobile */
+  }
+}
+
+/* Wrapper para centralizar o conteúdo (Responsividade de Tablet) */
+.contentWrapper {
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 2.5rem;
+}
+
+@media (max-width: 767px) {
+  .contentWrapper {
+    padding: 1.5rem; /* p-6 (padding mobile) */
+  }
+}
+
+@media (min-width: 1280px) {
+  /* breakpoint 'xl' */
+  .contentWrapper {
+    max-width: 1024px; /* Limita a largura apenas em telas grandes */
+  }
+}
+
+/* --- Barra Lateral (Sidebar) --- */
+.sidebar {
+  position: fixed;
+  inset: 0 0 0 0;
+  z-index: 50;
+  width: 16rem; /* w-64 */
+  background-color: #0f172a; /* bg-slate-900 */
+  border-right: 1px solid #1e293b; /* border-slate-800 */
+  transform: translateX(-100%);
+  transition: transform 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem; /* p-6 */
+  box-sizing: border-box; /* Garante que o padding não aumente a largura */
+}
+
+.sidebarOpen {
+  transform: translateX(0);
+}
+
+@media (min-width: 768px) {
+  .sidebar {
+    transform: translateX(0);
+  }
+}
+
+/* --- Conteúdo da Sidebar --- */
+.sidebarBrand {
+  margin-bottom: 2rem;
+  padding-top: 0.5rem;
+  cursor: pointer;
+}
+.sidebarBrand h1 {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #a855f7;
+  font-family: "Inconsolata", monospace;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s;
+  margin: 0;
+}
+.sidebarBrand:hover h1 {
+  letter-spacing: 0.05em;
+}
+.sidebarBrand p {
+  font-size: 0.75rem;
+  color: #64748b;
+  margin-top: 0.25rem;
+  font-family: "Inconsolata", monospace;
+  padding-left: 2rem;
+  margin-bottom: 0;
+}
+
+.sidebarNav {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.sidebarButton {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  transition: all 0.2s;
+  font-weight: 500;
+  color: #64748b;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  font-size: 1rem;
+}
+.sidebarButton:hover {
+  color: #ffffff;
+  background-color: #1e293b;
+}
+.sidebarButton.active {
+  background-color: rgba(168, 85, 247, 0.1);
+  color: #a855f7;
+}
+
+.sidebarFooter {
+  margin-top: auto;
+  padding-top: 1.5rem;
+  border-top: 1px solid #1e293b;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.footerAvatar {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 9999px;
+  background-color: #0f172a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #a855f7;
+  border: 1px solid #1e293b;
+  font-weight: bold;
+  font-size: 0.875rem;
+}
+.footerInfo p {
+  margin: 0;
+}
+.footerInfo p:first-child {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #ffffff;
+}
+.footerInfo p:last-child {
+  font-size: 0.625rem;
+  color: #64748b;
+}
+
+/* --- Header Mobile --- */
+.mobileHeader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  background-color: #0f172a;
+  border-bottom: 1px solid #1e293b;
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+}
+.mobileHeader span {
+  font-weight: bold;
+  color: #a855f7;
+  font-family: "Inconsolata", monospace;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.mobileHeader button {
+  padding: 0.5rem;
+  color: #ffffff;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+@media (min-width: 768px) {
+  .mobileHeader {
+    display: none;
+  }
+}
+
+/* --- Overlay Mobile --- */
+.mobileOverlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 40;
+  backdrop-filter: blur(2px);
+}
+@media (min-width: 768px) {
+  .mobileOverlay {
+    display: none;
+  }
+}
+
+@keyframes subtleGlow {
+  0% {
+    box-shadow: 0 0 4px rgba(168, 85, 247, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 12px rgba(168, 85, 247, 0.6);
+  }
+  100% {
+    box-shadow: 0 0 4px rgba(168, 85, 247, 0.3);
+  }
+}
+
+/* Aplica a animação ao botão ativo */
+.sidebarButton.active {
+  background-color: rgba(168, 85, 247, 0.1);
+  color: #a855f7;
+
+  /* Adiciona a animação de brilho */
+  animation: subtleGlow 2.5s infinite ease-in-out;
+}

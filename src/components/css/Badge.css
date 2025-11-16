@@ -1,0 +1,10 @@
+.badge {
+  padding: 0.25rem 0.5rem; /* px-2 py-1 */
+  border-radius: 0.25rem; /* rounded */
+  font-size: 0.75rem; /* text-xs */
+  font-family: "Inconsolata", monospace;
+  font-weight: 500; /* font-medium */
+  border: 1px solid rgba(168, 85, 247, 0.2); /* border-purple-500/20 */
+  background-color: rgba(168, 85, 247, 0.1); /* bg-purple-500/10 */
+  color: #a855f7; /* text-purple-400 */
+}

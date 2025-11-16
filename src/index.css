@@ -1,0 +1,19 @@
+body {
+  font-family: "Inter", sans-serif;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px); /* Começa 10px abaixo */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Classe que usa a animação */
+.animate-fadeIn {
+  animation: fadeIn 0.5s ease-out forwards;
+}

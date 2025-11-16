@@ -1,0 +1,259 @@
+/* --- Título e Pesquisa --- */
+.postsHeader h2 {
+  font-size: 1.875rem; /* text-3xl */
+  font-weight: 700; /* font-bold */
+  color: #ffffff; /* text-white */
+  margin-bottom: 1.5rem; /* mb-6 */
+  display: flex;
+  align-items: center;
+  gap: 0.5rem; /* gap-2 */
+}
+
+.postsHeader h2 span {
+  color: #a855f7; /* text-purple-400 */
+}
+
+.searchBox {
+  position: relative;
+  margin-bottom: 2rem; /* mb-8 */
+}
+
+.searchIcon {
+  position: absolute;
+  left: 0.75rem; /* left-3 */
+  top: 50%;
+  transform: translateY(-50%);
+  color: #64748b; /* text-slate-400 */
+}
+
+.searchInput {
+  width: 100%;
+  background-color: #0f172a; /* bg-slate-900 */
+  border: 1px solid #1e293b; /* border-slate-800 */
+  color: #ffffff; /* text-white */
+  padding-left: 2.5rem; /* pl-10 */
+  padding-right: 1rem; /* pr-4 */
+  padding-top: 0.75rem; /* py-3 */
+  padding-bottom: 0.75rem; /* py-3 */
+  border-radius: 0.5rem; /* rounded-lg */
+  transition: all 0.2s;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05); /* shadow-sm */
+  box-sizing: border-box; /* Garante que o padding não quebre o width */
+  font-size: 1rem;
+}
+.searchInput::placeholder {
+  color: #475569; /* placeholder-slate-600 */
+}
+.searchInput:focus {
+  outline: none;
+  border-color: #a855f7; /* focus:border-purple-500 */
+  box-shadow: 0 0 0 1px #a855f7; /* focus:ring-1 focus:ring-purple-500 */
+}
+
+/* --- Card de Post --- */
+.postsGrid {
+  display: grid;
+  gap: 1.5rem; /* gap-6 */
+}
+
+.postCard {
+  background-color: #0f172a; /* bg-slate-900 */
+  border: 1px solid #1e293b; /* border-slate-800 */
+  border-radius: 0.75rem; /* rounded-xl */
+  padding: 1.5rem; /* p-6 */
+  cursor: pointer;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05); /* shadow-sm */
+}
+.postCard:hover {
+  border-color: rgba(168, 85, 247, 0.5); /* hover:border-purple-500/50 */
+  box-shadow: 0 0 20px rgba(168, 85, 247, 0.1); /* hover:shadow[...] */
+}
+
+.postCardGlow {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px; /* w-1 */
+  background-color: #a855f7; /* bg-purple-500 */
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.postCard:hover .postCardGlow {
+  opacity: 1;
+}
+
+.postCardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem; /* mb-3 */
+}
+.postCardMeta {
+  color: #64748b; /* text-slate-400 */
+  font-size: 0.75rem; /* text-xs */
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem; /* gap-2 */
+}
+
+.postCardTitle {
+  font-size: 1.25rem; /* text-xl */
+  font-weight: 700; /* font-bold */
+  color: #ffffff; /* text-white */
+  margin-bottom: 0.5rem; /* mb-2 */
+  transition: color 0.2s;
+}
+.postCard:hover .postCardTitle {
+  color: #a855f7; /* group-hover:text-purple-400 */
+}
+
+.postCardSnippet {
+  color: #64748b; /* text-slate-400 */
+  font-size: 0.875rem; /* text-sm */
+  margin-bottom: 1rem; /* mb-4 */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.postCardTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem; /* gap-2 */
+  margin-bottom: 1rem; /* mb-4 */
+}
+.tagButton {
+  padding: 0.125rem 0.5rem; /* px-2 py-0.5 */
+  border-radius: 0.25rem; /* rounded */
+  font-size: 0.75rem; /* text-xs */
+  font-family: "Inconsolata", monospace;
+  border: 1px solid #1e293b; /* border-slate-800 */
+  color: #64748b; /* text-slate-400 */
+  background-color: transparent;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.tagButton:hover {
+  color: #ffffff; /* hover:text-white */
+  background-color: #1e293b; /* hover:bg-slate-800 */
+}
+
+.readMoreLink {
+  display: flex;
+  align-items: center;
+  color: #a855f7; /* text-purple-400 */
+  font-size: 0.875rem; /* text-sm */
+  font-weight: 500; /* font-medium */
+  transition: transform 0.3s;
+}
+.readMoreLink svg {
+  margin-left: 0.25rem; /* ml-1 */
+}
+.postCard:hover .readMoreLink {
+  transform: translateX(0.5rem); /* group-hover:translate-x-2 */
+}
+
+/* --- Fallback "Not Found" --- */
+.notFound {
+  text-align: center;
+  padding: 3rem 0; /* py-12 */
+  border: 1px dashed #1e293b; /* border border-dashed border-slate-800 */
+  border-radius: 0.5rem; /* rounded-lg */
+  color: #64748b; /* text-slate-400 */
+}
+.notFound svg {
+  margin: 0 auto 0.75rem; /* mx-auto mb-3 */
+}
+
+/* --- Estilo para Posts Lidos --- */
+.postCard.isRead {
+  opacity: 0.7; /* Deixa o post lido mais "apagado" */
+}
+.postCard.isRead:hover {
+  opacity: 1; /* Volta ao normal no hover */
+}
+.readIndicator {
+  color: #a855f7; /* Roxo */
+  font-weight: 500;
+  font-family: "Inconsolata", monospace;
+}
+
+/* --- Estilos de Paginação --- */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #1e293b; /* border-slate-800 */
+}
+.pagination button {
+  background-color: #0f172a; /* bg-slate-900 */
+  border: 1px solid #1e293b; /* border-slate-800 */
+  color: #64748b; /* text-slate-400 */
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem; /* rounded-lg */
+  cursor: pointer;
+  transition: all 0.2s;
+  font-weight: 500;
+  font-size: 0.875rem;
+}
+.pagination button:hover:not(:disabled) {
+  background-color: #1e293b; /* bg-slate-800 */
+  color: #ffffff; /* text-white */
+}
+.pagination button.active {
+  border-color: #a855f7; /* border-purple-500 */
+  color: #a855f7; /* text-purple-400 */
+  background-color: rgba(168, 85, 247, 0.1);
+}
+.pagination button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.categoryBadgeButton {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: block; /* Garante o alinhamento */
+}
+.categoryBadgeButton .badge {
+  /* Acessa o componente Badge interno */
+  transition: all 0.2s;
+}
+.categoryBadgeButton:hover .badge {
+  /* Destaca no hover */
+  border-color: #a855f7;
+  background-color: rgba(168, 85, 247, 0.2);
+}
+
+/* --- ANIMAÇÕES DA LISTA DE POSTS --- */
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Classe que aplica a animação */
+.postCard.animate-in {
+  /* Começa invisível */
+  opacity: 0;
+
+  /* Define a animação */
+  animation: fadeUp 0.5s ease-out forwards;
+}

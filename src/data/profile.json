@@ -1,0 +1,40 @@
+{
+  "id": "gabriel-reis",
+  "personal": {
+    "name": "Gabriel Reis",
+    "handle": "@nao-compativel",
+    "role": "Computação & CyberSecurity",
+    "bio": "Explorando as camadas mais profundas da segurança da informação. Foco em Linux, Firewalls e desenvolvimento seguro.",
+    "location": "Camaçari, Bahia",
+    "contact": "gabi.reis200@gmail.com"
+  },
+  "social": {
+    "linkedin": "https://www.linkedin.com/in/greisp/",
+    "github": "https://github.com/nao-compativel"
+  },
+  "skills": {
+    "security": [
+      "Firewalls",
+      "VPNs (SSL/IPsec)",
+      "Proxy",
+      "DNS",
+      "PenTest Básico"
+    ],
+    "development": ["JavaScript", "C", "Java", "Flutter", "React"],
+    "sysadmin": ["Linux", "FreeBSD", "MySQL", "MongoDB", "Shell Scripting"]
+  },
+  "experience": [
+    {
+      "company": "Ostec Business Security",
+      "role": "Estagiário - Remote Desk",
+      "period": "2024 - 2025",
+      "description": "Suporte técnico em cibersegurança, configuração de Firewalls, servidores Web/Email e VPNs."
+    },
+    {
+      "company": "Mais Supermercados",
+      "role": "Auxiliar Administrativo",
+      "period": "2023 - 2024",
+      "description": "Gestão administrativa, lançamento fiscal, conferência SPED e suporte a sistemas ERP."
+    }
+  ]
+}
