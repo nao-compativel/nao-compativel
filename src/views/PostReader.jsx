@@ -1,45 +1,41 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect } from "react";
 import { ChevronRight, User } from "lucide-react";
-import { useParams, useNavigate, Link } from "react-router-dom"; // Novos imports
+import { useParams, useNavigate, Link } from "react-router-dom";
 import Badge from "../components/Badge";
 import MarkdownRenderer from "../components/MarkdownRenderer";
-import { POSTS_DATA } from "../data/posts"; // Precisa importar os dados aqui agora
+import { POSTS_DATA } from "../data/posts";
 
 import "./css/PostReader.css";
 
 const PostReader = ({ onMarkAsRead }) => {
-  const { slug } = useParams(); // Pega o slug da URL
+  const { slug } = useParams();
   const navigate = useNavigate();
 
-  // Encontra o post correto
   const post = POSTS_DATA.find((p) => p.slug === slug);
 
-  useEffect(() => {
-    if (post && onMarkAsRead) {
-      onMarkAsRead(post.slug);
-    }
-  }, [post, onMarkAsRead]);
-
-  if (!post) return <div className="text-white p-10">Post não encontrado.</div>;
-
+  // -----------------------------
+  // FORMATADOR DE DATA PT-BR
+  // -----------------------------
   function formatReadDate(dateString) {
     if (!dateString) return "";
+
     try {
       const [year, month, day] = dateString.split("-");
 
       const monthNames = [
         "Jan",
-        "Feb",
+        "Fev",
         "Mar",
-        "Apr",
-        "May",
+        "Abr",
+        "Mai",
         "Jun",
         "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
+        "Ago",
+        "Set",
+        "Out",
         "Nov",
-        "Dec",
+        "Dez",
       ];
 
       const m = parseInt(month, 10) - 1;
@@ -49,10 +45,32 @@ const PostReader = ({ onMarkAsRead }) => {
     }
   }
 
+  // -----------------------------
+  // MARCAR COMO LIDO + ATUALIZAR TÍTULO DA ABA
+  // -----------------------------
+  useEffect(() => {
+    if (!post) return;
+
+    // Marca como lido
+    if (onMarkAsRead) {
+      onMarkAsRead(post.slug);
+    }
+
+    // Atualiza título da aba
+    const previousTitle = document.title;
+    document.title = `${post.title} | Não Compatível`;
+
+    return () => {
+      document.title = "Gabriel Reis | Não Compatível"; // Ou previousTitle
+    };
+  }, [post, onMarkAsRead]);
+
+  if (!post) return <div className="text-white p-10">Post não encontrado.</div>;
+
   return (
     <div className="postReaderContainer animate-fadeIn">
       <button onClick={() => navigate(-1)} className="backButton">
-        <ChevronRight size={16} style={{ transform: "rotate(180deg)" }} />{" "}
+        <ChevronRight size={16} style={{ transform: "rotate(180deg)" }} />
         voltar
       </button>
 
@@ -64,9 +82,12 @@ const PostReader = ({ onMarkAsRead }) => {
           >
             <Badge>{post.category}</Badge>
           </Link>
+
           <span>{formatReadDate(post.date)}</span>
         </div>
+
         <h1 className="postHeaderTitle">{post.title}</h1>
+
         <div className="postHeaderAuthor">
           <User size={14} /> Por Gabriel Reis
         </div>
