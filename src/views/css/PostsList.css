@@ -88,10 +88,15 @@
 
 .postCardHeader {
   display: flex;
-  align-items: center;
+  align-items: center; /* Alinha verticalmente */
   justify-content: space-between;
-  margin-bottom: 0.75rem; /* mb-3 */
+  margin-bottom: 0.75rem;
+
+  /* --- CORREÇÃO 2: Permite quebrar linha se necessário --- */
+  flex-wrap: wrap;
+  gap: 0.5rem; /* Adiciona espaço entre os itens quando quebrarem */
 }
+
 .postCardMeta {
   color: #64748b; /* text-slate-400 */
   font-size: 0.75rem; /* text-xs */
