@@ -1,1 +1,0 @@
-import{c as a,R as o,j as t}from"./index-_Cx3OQFR.js";const c=[["path",{d:"m9 18 6-6-6-6",key:"mthhwq"}]],r=a("chevron-right",c),n=({children:e,className:s=""})=>t.jsx("span",{className:`badge ${s}`,children:e}),h=o.memo(n);export{h as B,r as C};
