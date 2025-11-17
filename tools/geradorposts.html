@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gerador de Posts</title>
+    <script
+      src="https://unpkg.com/react@18/umd/react.development.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+      crossorigin
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Inconsolata:wght@400;700&display=swap");
+
+      :root {
+        --bg: #020617;
+        --card-bg: #0f172a;
+        --border: #1e293b;
+        --text-primary: #e2e8f0;
+        --text-secondary: #64748b;
+        --accent: #a855f7;
+      }
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: var(--bg);
+        color: var(--text-primary);
+        margin: 0;
+        padding: 2rem;
+      }
+      #root {
+        max-width: 800px;
+        margin: 0 auto;
+      }
+      h1 {
+        color: var(--accent);
+        font-family: "Inconsolata", monospace;
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 0.5rem;
+      }
+      .form-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+      .form-group {
+        display: flex;
+        flex-direction: column;
+      }
+      .form-group-inline {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+      }
+      label {
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+      }
+      input,
+      textarea {
+        background-color: var(--card-bg);
+        border: 1px solid var(--border);
+        color: var(--text-primary);
+        padding: 0.75rem 1rem;
+        border-radius: 0.5rem;
+        font-size: 1rem;
+        font-family: "Inter", sans-serif;
+      }
+      textarea {
+        font-family: "Inconsolata", monospace;
+        min-height: 250px;
+        resize: vertical;
+      }
+      input:focus,
+      textarea:focus {
+        outline: none;
+        border-color: var(--accent);
+        box-shadow: 0 0 0 1px var(--accent);
+      }
+      small {
+        color: var(--text-secondary);
+        margin-top: 0.25rem;
+      }
+      .button-group {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1.5rem;
+      }
+      button {
+        background-color: var(--accent);
+        color: #ffffff;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 0.5rem;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      button:hover {
+        opacity: 0.8;
+      }
+      button.secondary {
+        background-color: var(--card-bg);
+        color: var(--accent);
+        border: 1px solid var(--accent);
+      }
+      pre {
+        background-color: #000;
+        border: 1px solid var(--border);
+        padding: 1rem;
+        border-radius: 0.5rem;
+        overflow-x: auto;
+        max-height: 300px;
+      }
+      code {
+        font-family: "Inconsolata", monospace;
+        font-size: 0.875rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      const { useState, useMemo } = React;
+
+      function PostGenerator() {
+        // --- States para os campos ---
+        const [title, setTitle] = useState("");
+        const [category, setCategory] = useState("");
+        const [tags, setTags] = useState("");
+        const [content, setContent] = useState("");
+
+        // --- State para o JSON gerado ---
+        const [generatedJson, setGeneratedJson] = useState(null);
+
+        // --- Geradores Automáticos ---
+
+        // Gera o Slug a partir do título
+        const slug = useMemo(() => {
+          if (!title) return "";
+          return title
+            .toLowerCase()
+            .replace(/[^a-z0-9\s-]/g, "") // Remove caracteres especiais
+            .trim()
+            .replace(/[\s-]+/g, "-"); // Substitui espaços por hífens
+        }, [title]);
+
+        // Calcula o tempo de leitura (baseado em 200 palavras por minuto)
+        const readTime = useMemo(() => {
+          if (!content) return "1 min";
+          const words = content.split(/\s+/).length;
+          const time = Math.ceil(words / 200);
+          return `${time} min`;
+        }, [content]);
+
+        // --- Manipulador do Formulário ---
+        const handleSubmit = (e) => {
+          e.preventDefault();
+
+          // 1. Gera os campos automáticos
+          const id = Date.now();
+          const date = new Date().toISOString().split("T")[0]; // "YYYY-MM-DD"
+
+          // 2. Constrói o objeto do post
+          const post = {
+            id: id,
+            slug: slug,
+            title: title,
+            date: date,
+            category: category,
+            tags: tags
+              .split(",")
+              .map((tag) => tag.trim())
+              .filter((t) => t.length > 0),
+            readTime: readTime,
+            content: content, // O textarea cuida das quebras de linha (\n)
+          };
+
+          // 3. Formata o JSON para visualização
+          const jsonString = JSON.stringify(post, null, 2);
+          setGeneratedJson(jsonString);
+        };
+
+        // --- Ação de Download ---
+        const handleDownload = () => {
+          if (!generatedJson) return;
+
+          // 1. Cria um "Blob" (arquivo em memória)
+          const blob = new Blob([generatedJson], { type: "application/json" });
+
+          // 2. Cria uma URL temporária para o Blob
+          const url = URL.createObjectURL(blob);
+
+          // 3. Cria um link <a> invisível
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `${slug}.json`; // O NOME DO ARQUIVO!
+
+          // 4. Clica no link e limpa
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+        };
+
+        // --- Ação de Copiar ---
+        const handleCopy = () => {
+          if (!generatedJson) return;
+          navigator.clipboard
+            .writeText(generatedJson)
+            .then(() => alert("JSON copiado para a área de transferência!"))
+            .catch((err) => console.error("Falha ao copiar:", err));
+        };
+
+        return (
+          <div>
+            <h1>Gerador de Posts</h1>
+            <form className="form-grid" onSubmit={handleSubmit}>
+              <div className="form-group">
+                <label htmlFor="title">Título</label>
+                <input
+                  id="title"
+                  type="text"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div className="form-group-inline">
+                <div className="form-group">
+                  <label htmlFor="category">Categoria</label>
+                  <input
+                    id="category"
+                    type="text"
+                    value={category}
+                    onChange={(e) => setCategory(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="tags">Tags</label>
+                  <input
+                    id="tags"
+                    type="text"
+                    value={tags}
+                    onChange={(e) => setTags(e.target.value)}
+                  />
+                  <small>Separe por vírgulas (ex: dev, react, css)</small>
+                </div>
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="content">Conteúdo (Markdown)</label>
+                <textarea
+                  id="content"
+                  value={content}
+                  onChange={(e) => setContent(e.target.value)}
+                  required
+                />
+              </div>
+
+              <button type="submit">Gerar JSON</button>
+            </form>
+
+            {generatedJson && (
+              <div style={{ marginTop: "2rem" }}>
+                <h2>JSON Gerado</h2>
+                <pre>
+                  <code>{generatedJson}</code>
+                </pre>
+                <div className="button-group">
+                  <button onClick={handleDownload}>Download {slug}.json</button>
+                  <button onClick={handleCopy} className="secondary">
+                    Copiar JSON
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        );
+      }
+
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+      root.render(<PostGenerator />);
+    </script>
+  </body>
+</html>
