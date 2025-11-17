@@ -162,3 +162,143 @@
   color: #a855f7;
   border-color: #a855f7;
 }
+
+/* ---------- HEADERS 3–6 ---------- */
+
+.markdownH3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #c084fc;
+  margin-top: 1.25rem;
+  margin-bottom: 0.5rem;
+  border-left: 3px solid #a855f7;
+  padding-left: 0.5rem;
+}
+
+.markdownH4 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #e5d8ff;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.markdownH5 {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #cbd5e1;
+  margin-top: 0.75rem;
+  margin-bottom: 0.4rem;
+}
+
+.markdownH6 {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #94a3b8;
+  margin-top: 0.5rem;
+  margin-bottom: 0.3rem;
+}
+
+/* ---------- OL ---------- */
+
+.markdownOl {
+  list-style: decimal inside;
+  color: #a0aec0;
+  margin: 1rem 0;
+  padding-left: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* ---------- BLOCKQUOTE (>) ---------- */
+
+.markdownBlockquote {
+  border-left: 4px solid #a855f7;
+  background: rgba(168, 85, 247, 0.08);
+  padding: 1rem 1.25rem;
+  color: #c4b5fd;
+  font-style: italic;
+  margin: 1.25rem 0;
+  border-radius: 0.25rem;
+}
+
+.markdownBlockquote p {
+  margin: 0 !important;
+}
+
+/* ---------- HR ---------- */
+
+.markdownHr {
+  border: none;
+  border-top: 1px solid #1e293b;
+  margin: 2rem 0;
+}
+
+/* ---------- STRONG / EM ---------- */
+
+.markdownStrong {
+  color: #e5d8ff;
+  font-weight: 700;
+}
+
+.markdownEm {
+  color: #c084fc;
+  font-style: italic;
+}
+
+/* ---------- LINK ---------- */
+
+.markdownA {
+  color: #a855f7;
+  text-decoration: underline;
+  transition: 0.2s;
+}
+
+.markdownA:hover {
+  color: #c084fc;
+}
+
+/* ---------- TABLES ---------- */
+
+.markdownTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.9rem;
+  overflow: hidden;
+  border-radius: 0.5rem;
+  border: 1px solid #1e293b;
+}
+
+.markdownTh {
+  background: #1e293b;
+  padding: 0.75rem;
+  text-align: left;
+  color: #e5d8ff;
+  font-weight: 600;
+  border-bottom: 1px solid #334155;
+}
+
+.markdownTd {
+  padding: 0.75rem;
+  color: #cbd5e1;
+  border-bottom: 1px solid #1e293b;
+}
+
+.markdownTr:nth-child(even) {
+  background: #0f172a;
+}
+.markdownTr:nth-child(odd) {
+  background: #1e293b;
+}
+.markdownTr:hover {
+  background: #334155;
+}
+.markdownTd a {
+  color: #a855f7;
+  text-decoration: underline;
+}
+.markdownTd a:hover {
+  color: #c084fc;
+}

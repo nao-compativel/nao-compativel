@@ -43,6 +43,32 @@ const markdownComponents = {
       {props.children}
     </h2>
   ),
+  h3: (props) => <h3 className="markdownH3">{props.children}</h3>,
+  h4: (props) => <h4 className="markdownH4">{props.children}</h4>,
+  h5: (props) => <h5 className="markdownH5">{props.children}</h5>,
+  h6: (props) => <h6 className="markdownH6">{props.children}</h6>,
+
+  ol: (props) => <ol className="markdownOl">{props.children}</ol>,
+
+  blockquote: (props) => (
+    <blockquote className="markdownBlockquote">{props.children}</blockquote>
+  ),
+
+  hr: () => <hr className="markdownHr" />,
+
+  strong: (props) => (
+    <strong className="markdownStrong">{props.children}</strong>
+  ),
+  em: (props) => <em className="markdownEm">{props.children}</em>,
+  a: (props) => <a className="markdownA" {...props} />,
+
+  table: (props) => <table className="markdownTable">{props.children}</table>,
+  thead: (props) => <thead>{props.children}</thead>,
+  tbody: (props) => <tbody>{props.children}</tbody>,
+  tr: (props) => <tr className="markdownTr">{props.children}</tr>,
+  th: (props) => <th className="markdownTh">{props.children}</th>,
+  td: (props) => <td className="markdownTd">{props.children}</td>,
+
   p: ({ node, ...props }) => <p className="markdownP" {...props} />,
   ul: ({ node, ...props }) => <ul className="markdownUl" {...props} />,
   li: ({ node, ...props }) => <li className="markdownLi" {...props} />,

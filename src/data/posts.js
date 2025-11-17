@@ -1,16 +1,30 @@
-// 1. Encontra todos os arquivos .json na pasta 'posts'
-// 'eager: true' faz com que os arquivos sejam carregados imediatamente
-const postModules = import.meta.glob("./posts/*.json", { eager: true });
+import fm from "front-matter";
 
-// 2. Extrai os dados de cada post (eles estão na propriedade 'default' ou direto no módulo)
-// e transforma o objeto em um array
-const allPosts = Object.values(postModules).map(
-  (module) => module.default || module
-);
+// 1. Importa todos os arquivos .md
+const postModules = import.meta.glob("./posts/*.md", {
+  eager: true,
+  query: "?raw",
+  import: "default",
+});
 
-// 3. Ordena os posts pela data, do mais recente para o mais antigo
-// (Fazemos isso aqui para garantir que a lista já esteja ordenada)
+const allPosts = Object.values(postModules).map((markdownContent) => {
+  const parsed = fm(markdownContent);
+
+  // 2. Retorna o objeto COM VALORES PADRÃO
+  return {
+    id: parsed.attributes.id || Date.now(), // Garante um ID
+    title: parsed.attributes.title || "Sem Título", // Garante um Título
+    date: parsed.attributes.date || new Date().toISOString().split("T")[0], // Garante data
+    category: parsed.attributes.category || "Geral",
+    tags: parsed.attributes.tags || [],
+    readTime: parsed.attributes.readTime || "1 min",
+    slug: parsed.attributes.slug || "post-sem-slug",
+    ...parsed.attributes, // Sobrescreve com os dados reais se existirem
+    content: parsed.body || "", // O texto do post
+  };
+});
+
+// 3. Ordena por data
 allPosts.sort((a, b) => new Date(b.date) - new Date(a.date));
 
-// 4. Exporta a lista pronta
 export const POSTS_DATA = allPosts;

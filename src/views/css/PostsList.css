@@ -262,3 +262,24 @@
   /* Define a animação */
   animation: fadeUp 0.5s ease-out forwards;
 }
+
+.postCard {
+  /* ... (outras propriedades) ... */
+  text-decoration: none; /* Remove sublinhado do container */
+}
+
+.postCardTitle {
+  /* ... (outras propriedades) ... */
+  text-decoration: none; /* Garante que o título não tenha linha */
+}
+
+.postCardSnippet {
+  /* ... (outras propriedades) ... */
+  text-decoration: none;
+}
+
+.postCard:hover {
+  /* Mantém o comportamento de hover, mas sem sublinhar o texto todo */
+  border-color: rgba(168, 85, 247, 0.5);
+  box-shadow: 0 0 20px rgba(168, 85, 247, 0.1);
+}

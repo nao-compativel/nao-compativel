@@ -22,6 +22,33 @@ const PostReader = ({ onMarkAsRead }) => {
 
   if (!post) return <div className="text-white p-10">Post não encontrado.</div>;
 
+  function formatReadDate(dateString) {
+    if (!dateString) return "";
+    try {
+      const [year, month, day] = dateString.split("-");
+
+      const monthNames = [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+      ];
+
+      const m = parseInt(month, 10) - 1;
+      return `${day} ${monthNames[m]} ${year}`;
+    } catch {
+      return "";
+    }
+  }
+
   return (
     <div className="postReaderContainer animate-fadeIn">
       <button onClick={() => navigate(-1)} className="backButton">
@@ -37,7 +64,7 @@ const PostReader = ({ onMarkAsRead }) => {
           >
             <Badge>{post.category}</Badge>
           </Link>
-          <span>{post.date}</span>
+          <span>{formatReadDate(post.date)}</span>
         </div>
         <h1 className="postHeaderTitle">{post.title}</h1>
         <div className="postHeaderAuthor">
