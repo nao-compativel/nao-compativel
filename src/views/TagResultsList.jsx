@@ -1,56 +1,41 @@
-import React, { useMemo, useState } from "react";
+/* eslint-disable no-useless-escape */
+import React, { useMemo } from "react";
 import { Search, ChevronRight, Database, ChevronsLeft } from "lucide-react";
+import { useParams, Link, useNavigate } from "react-router-dom"; // Router Imports
 import Badge from "../components/Badge";
-
-// Importa os CSS
 import "./css/PostsList.css";
 import "./css/TagResultsList.css";
 
-// Helper para formatar a data (opcional, pode ser movido para um utils.js)
 function formatReadDate(dateString) {
-  // "YYYY-MM-DD"
   if (!dateString) return "";
-  try {
-    const [year, month, day] = dateString.split("-");
-    return `${day}/${month}/${year}`; // "DD/MM/YYYY"
-  } catch (e) {
-    return "";
-  }
+  const [year, month, day] = dateString.split("-");
+  return `${day}/${month}/${year}`;
 }
 
-const TagResultsList = ({
-  posts,
-  activeTag,
-  onBack,
-  onSelectPost,
-  onSelectTag,
-  searchQuery,
-  setSearchQuery,
-  filterQuery,
-  readPosts, // Recebe o prop
-}) => {
-  // (Nota: esta view não tem paginação, mas seria fácil adicionar)
-  const [currentPage, setCurrentPage] = useState(1);
+const TagResultsList = ({ posts, readPosts }) => {
+  const { tag: activeTag } = useParams(); // Pega a tag da URL
+  const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = React.useState("");
 
-  const tagFilteredPosts = useMemo(() => {
-    setCurrentPage(1);
-    return posts.filter((post) => post.tags.includes(activeTag));
-  }, [posts, activeTag]);
+  const tagFilteredPosts = useMemo(
+    () => posts.filter((post) => post.tags.includes(activeTag)),
+    [posts, activeTag]
+  );
 
-  const filtered = useMemo(() => {
-    setCurrentPage(1);
-    return tagFilteredPosts.filter(
-      (post) =>
-        post.title.toLowerCase().includes(filterQuery.toLowerCase()) ||
-        post.content.toLowerCase().includes(filterQuery.toLowerCase()) ||
-        post.category.toLowerCase().includes(filterQuery.toLowerCase())
-    );
-  }, [tagFilteredPosts, filterQuery]);
+  const filtered = useMemo(
+    () =>
+      tagFilteredPosts.filter(
+        (post) =>
+          post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          post.content.toLowerCase().includes(searchQuery.toLowerCase())
+      ),
+    [tagFilteredPosts, searchQuery]
+  );
 
   return (
     <div className="animate-fadeIn">
       <div className="tagHeader">
-        <button onClick={onBack} className="tagHeaderButton">
+        <button onClick={() => navigate("/")} className="tagHeaderButton">
           <ChevronsLeft size={16} />
           Voltar para todos os posts
         </button>
@@ -78,14 +63,19 @@ const TagResultsList = ({
 
       <div className="postsGrid">
         {filtered.length > 0 ? (
-          filtered.map((post) => {
-            const readDate = readPosts[post.slug]; // Verifica se foi lido
+          filtered.map((post, index) => {
+            const readDate = readPosts[post.slug];
 
             return (
-              <article
+              <Link
+                to={`/post/${post.slug}`}
                 key={post.id}
-                onClick={() => onSelectPost(post)}
-                className={`postCard ${readDate ? "isRead" : ""}`} // Adiciona classe .isRead
+                className={`postCard ${readDate ? "isRead" : ""} animate-in`}
+                style={{
+                  animationDelay: `${index * 100}ms`,
+                  textDecoration: "none",
+                  display: "block",
+                }}
               >
                 <div className="postCardGlow" />
                 <div className="postCardHeader">
@@ -103,34 +93,37 @@ const TagResultsList = ({
                 </div>
                 <h3 className="postCardTitle">{post.title}</h3>
                 <p className="postCardSnippet">
-                  {post.content.replace(/[#`*]/g, "").substring(0, 150)}...
+                  {post.content
+                    .replace(/[#`*!\[\]\(\)]/g, "")
+                    .substring(0, 150)}
+                  ...
                 </p>
                 <div className="postCardTags">
-                  {post.tags.map((tag) => (
+                  {post.tags.map((t) => (
                     <span
-                      key={tag}
+                      key={t}
                       className="tagButton"
                       style={{
-                        borderColor: tag === activeTag ? "#a855f7" : "#1e293b",
-                        color: tag === activeTag ? "#ffffff" : "#64748b",
+                        borderColor: t === activeTag ? "#a855f7" : "#1e293b",
+                        color: t === activeTag ? "#ffffff" : "#64748b",
                         backgroundColor:
-                          tag === activeTag ? "#1e293b" : "transparent",
+                          t === activeTag ? "#1e293b" : "transparent",
                       }}
                     >
-                      #{tag}
+                      #{t}
                     </span>
                   ))}
                 </div>
                 <div className="readMoreLink">
                   Ler artigo <ChevronRight size={16} />
                 </div>
-              </article>
+              </Link>
             );
           })
         ) : (
           <div className="notFound">
             <Database size={32} />
-            <p>Nenhum resultado encontrado para "{filterQuery}".</p>
+            <p>Nenhum resultado encontrado.</p>
           </div>
         )}
       </div>

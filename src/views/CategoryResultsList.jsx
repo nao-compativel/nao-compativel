@@ -1,47 +1,39 @@
+/* eslint-disable no-useless-escape */
+/* eslint-disable no-unused-vars */
 import React, { useMemo, useState } from "react";
 import { Search, ChevronRight, Database, ChevronsLeft } from "lucide-react";
+import { useParams, Link, useNavigate } from "react-router-dom"; // Router Imports
 import Badge from "../components/Badge";
-
-// Importa os CSS
 import "./css/PostsList.css";
-import "./css/TagResultsList.css"; // Reutiliza o CSS da Tag list
+import "./css/TagResultsList.css";
 
-const CategoryResultsList = ({
-  posts,
-  activeCategory,
-  onBack,
-  onSelectPost,
-  onSelectTag,
-  searchQuery,
-  setSearchQuery,
-  filterQuery,
-  readPosts,
-}) => {
-  // Helper para formatar a data
-  function formatReadDate(dateString) {
-    if (!dateString) return "";
-    const [year, month, day] = dateString.split("-");
-    return `${day}/${month}/${year}`;
-  }
+function formatReadDate(dateString) {
+  if (!dateString) return "";
+  const [year, month, day] = dateString.split("-");
+  return `${day}/${month}/${year}`;
+}
 
-  // Lógica de filtragem principal
+const CategoryResultsList = ({ posts, readPosts }) => {
+  const { category: activeCategory } = useParams(); // Pega a categoria da URL
+  const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = React.useState("");
+
   const categoryFilteredPosts = useMemo(() => {
     return posts.filter((post) => post.category === activeCategory);
   }, [posts, activeCategory]);
 
-  // Lógica de filtro de pesquisa
   const filtered = useMemo(() => {
     return categoryFilteredPosts.filter(
       (post) =>
-        post.title.toLowerCase().includes(filterQuery.toLowerCase()) ||
-        post.content.toLowerCase().includes(filterQuery.toLowerCase())
+        post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        post.content.toLowerCase().includes(searchQuery.toLowerCase())
     );
-  }, [categoryFilteredPosts, filterQuery]);
+  }, [categoryFilteredPosts, searchQuery]);
 
   return (
     <div className="animate-fadeIn">
       <div className="tagHeader">
-        <button onClick={onBack} className="tagHeaderButton">
+        <button onClick={() => navigate("/")} className="tagHeaderButton">
           <ChevronsLeft size={16} />
           Voltar para todos os posts
         </button>
@@ -69,18 +61,22 @@ const CategoryResultsList = ({
 
       <div className="postsGrid">
         {filtered.length > 0 ? (
-          filtered.map((post) => {
+          filtered.map((post, index) => {
             const readDate = readPosts[post.slug];
 
             return (
-              <article
+              <Link
+                to={`/post/${post.slug}`}
                 key={post.id}
-                onClick={() => onSelectPost(post)}
-                className={`postCard ${readDate ? "isRead" : ""}`}
+                className={`postCard ${readDate ? "isRead" : ""} animate-in`}
+                style={{
+                  animationDelay: `${index * 100}ms`,
+                  textDecoration: "none",
+                  display: "block",
+                }}
               >
                 <div className="postCardGlow" />
                 <div className="postCardHeader">
-                  {/* O Badge aqui é a própria categoria, então não é clicável */}
                   <Badge>{post.category.toUpperCase()}</Badge>
                   <div className="postCardMeta">
                     <span>
@@ -95,33 +91,28 @@ const CategoryResultsList = ({
                 </div>
                 <h3 className="postCardTitle">{post.title}</h3>
                 <p className="postCardSnippet">
-                  {post.content.replace(/[#`*]/g, "").substring(0, 150)}...
+                  {post.content
+                    .replace(/[#`*!\[\]\(\)]/g, "")
+                    .substring(0, 150)}
+                  ...
                 </p>
                 <div className="postCardTags">
-                  {/* As tags dentro da lista de categorias ainda são clicáveis */}
                   {post.tags.map((tag) => (
-                    <button
-                      key={tag}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onSelectTag(tag);
-                      }}
-                      className="tagButton"
-                    >
+                    <span key={tag} className="tagButton">
                       #{tag}
-                    </button>
+                    </span>
                   ))}
                 </div>
                 <div className="readMoreLink">
                   Ler artigo <ChevronRight size={16} />
                 </div>
-              </article>
+              </Link>
             );
           })
         ) : (
           <div className="notFound">
             <Database size={32} />
-            <p>Nenhum resultado encontrado para "{filterQuery}".</p>
+            <p>Nenhum resultado encontrado.</p>
           </div>
         )}
       </div>

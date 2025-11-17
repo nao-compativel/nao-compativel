@@ -1,51 +1,42 @@
+/* eslint-disable no-useless-escape */
+/* eslint-disable react-hooks/set-state-in-render */
+/* eslint-disable no-unused-vars */
 import React, { useMemo, useState } from "react";
 import { Search, ChevronRight, Database } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom"; // Router Imports
 import Badge from "../components/Badge";
 import "./css/PostsList.css";
 
 const POSTS_PER_PAGE = 5;
 
-// Helper para formatar a data
 function formatReadDate(dateString) {
-  // "YYYY-MM-DD"
   if (!dateString) return "";
   try {
     const [year, month, day] = dateString.split("-");
-    return `${day}/${month}/${year}`; // "DD/MM/YYYY"
+    return `${day}/${month}/${year}`;
   } catch (e) {
-    return ""; // Retorna vazio se a data for inválida
+    return "";
   }
 }
 
-// Recebe 'onSelectCategory'
-const PostsList = ({
-  posts,
-  onSelectPost,
-  onSelectTag,
-  onSelectCategory,
-  searchQuery,
-  setSearchQuery,
-  filterQuery,
-  readPosts,
-}) => {
+const PostsList = ({ posts, readPosts }) => {
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState("");
+  const navigate = useNavigate();
 
-  // Lógica de filtragem
   const filtered = useMemo(() => {
     setCurrentPage(1);
-
     return posts.filter(
       (post) =>
-        post.title.toLowerCase().includes(filterQuery.toLowerCase()) ||
-        post.content.toLowerCase().includes(filterQuery.toLowerCase()) ||
-        post.category.toLowerCase().includes(filterQuery.toLowerCase()) ||
+        post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        post.content.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        post.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
         post.tags.some((tag) =>
-          tag.toLowerCase().includes(filterQuery.toLowerCase())
+          tag.toLowerCase().includes(searchQuery.toLowerCase())
         )
     );
-  }, [posts, filterQuery]);
+  }, [posts, searchQuery]);
 
-  // Lógica de Paginação
   const totalPages = Math.ceil(filtered.length / POSTS_PER_PAGE);
   const startIndex = (currentPage - 1) * POSTS_PER_PAGE;
   const endIndex = startIndex + POSTS_PER_PAGE;
@@ -56,6 +47,19 @@ const PostsList = ({
       setCurrentPage(page);
       window.scrollTo(0, 0);
     }
+  };
+
+  // Handlers para navegação de botões internos
+  const handleCategoryClick = (e, category) => {
+    e.preventDefault(); // Evita abrir o Link do post
+    e.stopPropagation();
+    navigate(`/category/${category}`);
+  };
+
+  const handleTagClick = (e, tag) => {
+    e.preventDefault();
+    e.stopPropagation();
+    navigate(`/tag/${tag}`);
   };
 
   return (
@@ -79,32 +83,29 @@ const PostsList = ({
 
         <div className="postsGrid">
           {postsForThisPage.length > 0 ? (
-            // 1. "index" é adicionado ao map
             postsForThisPage.map((post, index) => {
               const readDate = readPosts[post.slug];
 
               return (
-                <article
+                // Card inteiro agora é um Link
+                <Link
+                  to={`/post/${post.slug}`}
                   key={post.id}
-                  onClick={() => onSelectPost(post)}
-                  // 2. Classe "animate-in" é adicionada
                   className={`postCard ${readDate ? "isRead" : ""} animate-in`}
-                  // 3. O "delay" da animação é aplicado via style
-                  style={{ animationDelay: `${index * 100}ms` }}
+                  style={{
+                    animationDelay: `${index * 100}ms`,
+                    textDecoration: "none",
+                    display: "block",
+                  }}
                 >
                   <div className="postCardGlow" />
                   <div className="postCardHeader">
-                    {/* ENVOLVA O BADGE COM O BOTÃO */}
                     <button
-                      onClick={(e) => {
-                        e.stopPropagation(); // Impede o clique no card
-                        onSelectCategory(post.category);
-                      }}
+                      onClick={(e) => handleCategoryClick(e, post.category)}
                       className="categoryBadgeButton"
                     >
                       <Badge>{post.category.toUpperCase()}</Badge>
                     </button>
-                    {/* FIM DA MUDANÇA */}
 
                     <div className="postCardMeta">
                       <span>
@@ -119,17 +120,17 @@ const PostsList = ({
                   </div>
                   <h3 className="postCardTitle">{post.title}</h3>
                   <p className="postCardSnippet">
-                    {post.content.replace(/[#`*]/g, "").substring(0, 150)}...
+                    {post.content
+                      .replace(/[#`*!\[\]\(\)]/g, "")
+                      .substring(0, 150)}
+                    ...
                   </p>
 
                   <div className="postCardTags">
                     {post.tags.map((tag) => (
                       <button
                         key={tag}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          onSelectTag(tag);
-                        }}
+                        onClick={(e) => handleTagClick(e, tag)}
                         className="tagButton"
                       >
                         #{tag}
@@ -140,18 +141,17 @@ const PostsList = ({
                   <div className="readMoreLink">
                     Ler artigo <ChevronRight size={16} />
                   </div>
-                </article>
+                </Link>
               );
             })
           ) : (
             <div className="notFound">
               <Database size={32} />
-              <p>Nenhum resultado encontrado para "{filterQuery}".</p>
+              <p>Nenhum resultado encontrado para "{searchQuery}".</p>
             </div>
           )}
         </div>
 
-        {/* Renderiza os botões de Paginação */}
         {totalPages > 1 && (
           <div className="pagination">
             <button

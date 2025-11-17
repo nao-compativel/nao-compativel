@@ -11,7 +11,7 @@ body {
   background-color: #020617; /* bg-slate-950 */
   color: #e2e8f0; /* text-slate-300 */
   font-family: "Inter", sans-serif;
-  user-select: true;
+  user-select: none;
 }
 
 .appContainer ::selection {
@@ -19,21 +19,19 @@ body {
   color: #ffffff; /* text-white */
 }
 
-/* --- Layout Principal (CORRIGIDO) --- */
+/* --- Layout Principal (Corrigido) --- */
 .mainContent {
   transition: all 0.3s ease-in-out;
   padding-top: 80px; /* Padding APENAS para o header mobile */
 }
 
 @media (min-width: 768px) {
-  /* breakpoint 'md' */
   .mainContent {
-    margin-left: 16rem; /* Empurra o <main> para a direita */
-    padding-top: 0; /* Remove o padding mobile */
+    margin-left: 16rem;
+    padding-top: 0;
   }
 }
 
-/* Wrapper para centralizar o conteúdo (Responsividade de Tablet) */
 .contentWrapper {
   max-width: 100%;
   margin-left: auto;
@@ -43,14 +41,13 @@ body {
 
 @media (max-width: 767px) {
   .contentWrapper {
-    padding: 1.5rem; /* p-6 (padding mobile) */
+    padding: 1.5rem;
   }
 }
 
 @media (min-width: 1280px) {
-  /* breakpoint 'xl' */
   .contentWrapper {
-    max-width: 1024px; /* Limita a largura apenas em telas grandes */
+    max-width: 1024px;
   }
 }
 
@@ -59,14 +56,20 @@ body {
   position: fixed;
   inset: 0 0 0 0;
   z-index: 50;
-  width: 16rem; /* w-64 */
-  background-color: #0f172a; /* bg-slate-900 */
-  border-right: 1px solid #1e293b; /* border-slate-800 */
+  width: 16rem; /* 256px */
+  background-color: #0f172a;
+  border-right: 1px solid #1e293b;
   transform: translateX(-100%);
   transition: transform 0.3s ease-in-out;
+
+  /* O scroll é no PAI */
+  overflow-y: auto;
+
+  /* O padding original para o conteúdo interno */
+  padding: 1.5rem;
+
   display: flex;
   flex-direction: column;
-  padding: 1.5rem; /* p-6 */
   box-sizing: border-box; /* Garante que o padding não aumente a largura */
 }
 
@@ -85,6 +88,7 @@ body {
   margin-bottom: 2rem;
   padding-top: 0.5rem;
   cursor: pointer;
+  /* O padding de 1.5rem do .sidebar já se aplica aqui */
 }
 .sidebarBrand h1 {
   font-size: 1.25rem;
@@ -114,9 +118,20 @@ body {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+
+  /* Removemos os hacks de padding/margin daqui */
+  /* A área de scroll agora é o .sidebar inteiro */
 }
+
 .sidebarButton {
-  width: 100%;
+  /* MUDANÇA PRINCIPAL:
+     Em vez de width: 100%, usamos margem para criar espaço.
+     Isso torna o botão mais estreito, dando espaço para a sombra
+     "viver" dentro do padding do .sidebar.
+  */
+  margin: 0 0.5rem; /* Adiciona 8px de margem em cada lado */
+  /* width: 100%; <-- REMOVIDO */
+
   display: flex;
   align-items: center;
   gap: 0.75rem;
@@ -130,23 +145,39 @@ body {
   cursor: pointer;
   text-align: left;
   font-size: 1rem;
+  box-sizing: border-box;
 }
 .sidebarButton:hover {
   color: #ffffff;
   background-color: #1e293b;
 }
+
+/* O brilho da animação */
+@keyframes subtleGlow {
+  0% {
+    box-shadow: 0 0 4px rgba(168, 85, 247, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 12px rgba(168, 85, 247, 0.6);
+  }
+  100% {
+    box-shadow: 0 0 4px rgba(168, 85, 247, 0.3);
+  }
+}
 .sidebarButton.active {
   background-color: rgba(168, 85, 247, 0.1);
   color: #a855f7;
+  animation: subtleGlow 2.5s infinite ease-in-out;
 }
 
 .sidebarFooter {
   margin-top: auto;
-  padding-top: 1.5rem;
+  padding-top: 1.5rem; /* Adiciona o espaço de volta */
   border-top: 1px solid #1e293b;
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  /* O padding de 1.5rem do .sidebar já se aplica aqui */
 }
 .footerAvatar {
   width: 2.5rem;
@@ -222,25 +253,4 @@ body {
   .mobileOverlay {
     display: none;
   }
-}
-
-@keyframes subtleGlow {
-  0% {
-    box-shadow: 0 0 4px rgba(168, 85, 247, 0.3);
-  }
-  50% {
-    box-shadow: 0 0 12px rgba(168, 85, 247, 0.6);
-  }
-  100% {
-    box-shadow: 0 0 4px rgba(168, 85, 247, 0.3);
-  }
-}
-
-/* Aplica a animação ao botão ativo */
-.sidebarButton.active {
-  background-color: rgba(168, 85, 247, 0.1);
-  color: #a855f7;
-
-  /* Adiciona a animação de brilho */
-  animation: subtleGlow 2.5s infinite ease-in-out;
 }

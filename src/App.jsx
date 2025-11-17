@@ -1,20 +1,23 @@
-import React, { useState, Suspense, lazy } from "react";
+import React, { Suspense, lazy } from "react";
 import { Terminal, User, Menu, X, Layout } from "lucide-react";
-import { POSTS_DATA } from "./data/posts";
+import {
+  Routes,
+  Route,
+  Link,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import PROFILE_DATA from "./data/profile.json";
-import { useDebounce } from "./hooks/useDebounce";
 import { useReadPosts } from "./hooks/useReadPosts";
+import { POSTS_DATA } from "./data/posts";
 
-// Importa os estilos CSS
 import "./App.css";
 import "./index.css";
 
-// Views
 const PostsList = lazy(() => import("./views/PostsList"));
 const PostReader = lazy(() => import("./views/PostReader"));
 const AboutProfile = lazy(() => import("./views/AboutProfile"));
 const TagResultsList = lazy(() => import("./views/TagResultsList"));
-// ADICIONE A NOVA VIEW
 const CategoryResultsList = lazy(() => import("./views/CategoryResultsList"));
 
 const LoadingFallback = () => (
@@ -41,50 +44,23 @@ const LoadingFallback = () => (
 );
 
 export default function App() {
-  const [view, setView] = useState("list");
-  const [activePost, setActivePost] = useState(null);
-  const [activeTag, setActiveTag] = useState(null);
-  const [activeCategory, setActiveCategory] = useState(null);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const debouncedSearchQuery = useDebounce(searchQuery, 300);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
   const [readPosts, markAsRead] = useReadPosts();
 
-  const navigateToPost = (post) => {
-    setActivePost(post);
-    setView("detail");
-    setIsMobileMenuOpen(false);
-    window.scrollTo(0, 0);
-  };
+  const location = useLocation();
+  const navigate = useNavigate();
 
-  const navigateToPage = (page) => {
-    setView(page);
-    setActivePost(null);
-    setActiveTag(null);
-    setActiveCategory(null);
-    setIsMobileMenuOpen(false);
-    window.scrollTo(0, 0);
-  };
-
-  const navigateToTag = (tag) => {
-    setActiveTag(tag);
-    setView("tagList");
-    setIsMobileMenuOpen(false);
-    window.scrollTo(0, 0);
-  };
-
-  const navigateToCategory = (category) => {
-    setActiveCategory(category);
-    setView("categoryList");
-    setIsMobileMenuOpen(false);
-    window.scrollTo(0, 0);
+  const isActive = (path) => {
+    if (path === "/" && location.pathname === "/") return true;
+    if (path !== "/" && location.pathname.startsWith(path)) return true;
+    return false;
   };
 
   return (
     <div className="appContainer">
       {/* --- MOBILE HEADER --- */}
       <div className="mobileHeader">
-        <span>
+        <span onClick={() => navigate("/")} style={{ cursor: "pointer" }}>
           <Terminal size={20} /> NC
         </span>
         <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
@@ -92,51 +68,55 @@ export default function App() {
         </button>
       </div>
 
-      {/* --- SIDEBAR NAVIGATION --- */}
+      {/* --- SIDEBAR --- */}
       <aside className={`sidebar ${isMobileMenuOpen ? "sidebarOpen" : ""}`}>
-        <div
-          style={{ display: "flex", flexDirection: "column", height: "100%" }}
-        >
-          <div className="sidebarBrand" onClick={() => navigateToPage("list")}>
-            <h1>
-              <Terminal size={24} /> NAO_COMPATIVEL
-            </h1>
-            <p>System.init(secure_mode)</p>
+        {/* REMOVIDA A DIV WRAPPER AQUI - O aside já é flex column */}
+
+        <div className="sidebarBrand" onClick={() => navigate("/")}>
+          <h1>
+            <Terminal size={24} /> NAO_COMPATIVEL
+          </h1>
+          <p>System.init(secure_mode)</p>
+        </div>
+
+        <nav className="sidebarNav">
+          <Link
+            to="/"
+            className={`sidebarButton ${
+              isActive("/") ||
+              isActive("/post") ||
+              isActive("/tag") ||
+              isActive("/category")
+                ? "active"
+                : ""
+            }`}
+            style={{ textDecoration: "none" }}
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            <Layout size={18} /> Blog & Projetos
+          </Link>
+          <Link
+            to="/about"
+            className={`sidebarButton ${isActive("/about") ? "active" : ""}`}
+            style={{ textDecoration: "none" }}
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            <User size={18} /> Sobre Mim
+          </Link>
+        </nav>
+
+        <div className="sidebarFooter">
+          <div className="footerAvatar">
+            <span>GR</span>
           </div>
-
-          <nav className="sidebarNav">
-            <button
-              onClick={() => navigateToPage("list")}
-              // ADICIONE 'categoryList' À CLASSE 'active'
-              className={`sidebarButton ${
-                ["list", "detail", "tagList", "categoryList"].includes(view)
-                  ? "active"
-                  : ""
-              }`}
-            >
-              <Layout size={18} /> Blog & Projetos
-            </button>
-            <button
-              onClick={() => navigateToPage("about")}
-              className={`sidebarButton ${view === "about" ? "active" : ""}`}
-            >
-              <User size={18} /> Sobre Mim
-            </button>
-          </nav>
-
-          <div className="sidebarFooter">
-            <div className="footerAvatar">
-              <span>GR</span>
-            </div>
-            <div className="footerInfo">
-              <p>{PROFILE_DATA.personal.name}</p>
-              <p>Computer Science</p>
-            </div>
+          <div className="footerInfo">
+            <p>{PROFILE_DATA.personal.name}</p>
+            <p>Full Stack Security</p>
           </div>
         </div>
       </aside>
 
-      {/* Overlay Mobile */}
+      {/* Overlay */}
       {isMobileMenuOpen && (
         <div
           className="mobileOverlay"
@@ -148,55 +128,39 @@ export default function App() {
       <main className="mainContent">
         <div className="contentWrapper">
           <Suspense fallback={<LoadingFallback />}>
-            {view === "list" && (
-              <PostsList
-                posts={POSTS_DATA}
-                onSelectPost={navigateToPost}
-                onSelectTag={navigateToTag}
-                onSelectCategory={navigateToCategory}
-                searchQuery={searchQuery}
-                setSearchQuery={setSearchQuery}
-                filterQuery={debouncedSearchQuery}
-                readPosts={readPosts}
+            <Routes>
+              <Route
+                path="/"
+                element={<PostsList posts={POSTS_DATA} readPosts={readPosts} />}
               />
-            )}
-            {view === "detail" && activePost && (
-              <PostReader
-                post={activePost}
-                authorName={PROFILE_DATA.personal.name}
-                onBack={() => navigateToPage("list")}
-                onSelectTag={navigateToTag}
-                onSelectCategory={navigateToCategory}
-                onMarkAsRead={() => markAsRead(activePost.slug)}
+
+              <Route
+                path="/post/:slug"
+                element={<PostReader onMarkAsRead={markAsRead} />}
               />
-            )}
-            {view === "about" && <AboutProfile profile={PROFILE_DATA} />}
-            {view === "tagList" && activeTag && (
-              <TagResultsList
-                posts={POSTS_DATA}
-                activeTag={activeTag}
-                onBack={() => navigateToPage("list")}
-                onSelectPost={navigateToPost}
-                onSelectTag={navigateToTag}
-                searchQuery={searchQuery}
-                setSearchQuery={setSearchQuery}
-                filterQuery={debouncedSearchQuery}
-                readPosts={readPosts}
+
+              <Route
+                path="/about"
+                element={<AboutProfile profile={PROFILE_DATA} />}
               />
-            )}
-            {view === "categoryList" && activeCategory && (
-              <CategoryResultsList
-                posts={POSTS_DATA}
-                activeCategory={activeCategory}
-                onBack={() => navigateToPage("list")}
-                onSelectPost={navigateToPost}
-                onSelectTag={navigateToTag}
-                searchQuery={searchQuery}
-                setSearchQuery={setSearchQuery}
-                filterQuery={debouncedSearchQuery}
-                readPosts={readPosts}
+
+              <Route
+                path="/tag/:tag"
+                element={
+                  <TagResultsList posts={POSTS_DATA} readPosts={readPosts} />
+                }
               />
-            )}
+
+              <Route
+                path="/category/:category"
+                element={
+                  <CategoryResultsList
+                    posts={POSTS_DATA}
+                    readPosts={readPosts}
+                  />
+                }
+              />
+            </Routes>
           </Suspense>
         </div>
       </main>
