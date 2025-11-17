@@ -11,7 +11,7 @@ body {
   background-color: #020617; /* bg-slate-950 */
   color: #e2e8f0; /* text-slate-300 */
   font-family: "Inter", sans-serif;
-  user-select: none;
+  user-select: true;
 }
 
 .appContainer ::selection {

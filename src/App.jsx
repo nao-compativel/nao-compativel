@@ -130,7 +130,7 @@ export default function App() {
             </div>
             <div className="footerInfo">
               <p>{PROFILE_DATA.personal.name}</p>
-              <p>Full Stack Security</p>
+              <p>Computer Science</p>
             </div>
           </div>
         </div>

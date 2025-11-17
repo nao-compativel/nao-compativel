@@ -2,7 +2,7 @@
   "id": "gabriel-reis",
   "personal": {
     "name": "Gabriel Reis",
-    "handle": "@nao-compativel",
+    "handle": "@nao_compativel",
     "role": "Computação & CyberSecurity",
     "bio": "Explorando as camadas mais profundas da segurança da informação. Foco em Linux, Firewalls e desenvolvimento seguro.",
     "location": "Camaçari, Bahia",
@@ -33,7 +33,7 @@
     {
       "company": "Mais Supermercados",
       "role": "Auxiliar Administrativo",
-      "period": "2023 - 2024",
+      "period": "2022 - 2024",
       "description": "Gestão administrativa, lançamento fiscal, conferência SPED e suporte a sistemas ERP."
     }
   ]

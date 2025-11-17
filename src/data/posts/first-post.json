@@ -1,10 +1,10 @@
 {
-  "id": 3,
+  "id": 1,
   "slug": "hello-world",
   "title": "Hello World",
   "date": "2025-11-16",
-  "category": "Dev",
-  "tags": [],
+  "category": "initial commit",
+  "tags": ["initial commit"],
   "readTime": "1 min",
-  "content": "Hello World"
+  "content": "# **System.out.println(Bem vindo!);** \n\nSou um estudante de Ciências da Computação (*e mais algumas coisas que você pode descobrir na aba \\\"Sobre mim\\\"*) e criei esse blog com o intuito de compartilhar minhas descobertas e aventuras no mundo da computação.\n\nSou principalmente um entusiasta da área de segurança da informação, então teremos muitos artigos com assuntos a respeito. \n\nDesde já, agradeço sua atenção e sua visita!\n\n ![image](https://i.ibb.co/Nn3p4Tv9/6fe6dfc4bccb3b78e41f3534451af2-unscreen.gif)\n\nAss: Gabriel Reis (Não compativel)"
 }
